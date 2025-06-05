@@ -5,6 +5,16 @@
     <artifactId>progra3_utilities</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    
+    <dependencies>
+        <!-- Model -->
+        <dependency>
+            <groupId>com.umg.edu</groupId>
+            <artifactId>progra3_model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies> 
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
