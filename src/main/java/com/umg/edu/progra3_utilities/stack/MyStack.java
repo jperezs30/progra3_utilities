@@ -28,4 +28,15 @@ public class MyStack {
         Node next;
         Node(Ticket data) { this.data = data; }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("MyStack:\n");
+        Node current = top;
+        while (current != null) {
+            sb.append("  ").append(current.data).append("\n");
+            current = current.next;
+        }
+        return sb.toString();
+    }
 }
