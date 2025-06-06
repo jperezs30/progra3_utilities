@@ -41,6 +41,8 @@ public class MyBinaryTree {
 
 
     public Ticket attendNext(String serviceName) {
+        System.out.println("root" + root);
+        System.out.println("serviceName: " + serviceName);
         TreeNode node = findNode(root, serviceName);
         if (node != null && !node.queue.isEmpty()) {
             return node.queue.dequeue();
@@ -70,7 +72,8 @@ public class MyBinaryTree {
 
     private TreeNode findNode(TreeNode node, String name) {
         if (node == null) return null;
-        if (name.equals(node.serviceName)) return node;
+        System.out.println("Searching for: " + name + " in node: " + node.serviceName);
+        if (name != null && name.trim().equalsIgnoreCase(node.serviceName.trim())) return node;
         if (name.compareTo(node.serviceName) < 0) return findNode(node.left, name);
         return findNode(node.right, name);
     }
