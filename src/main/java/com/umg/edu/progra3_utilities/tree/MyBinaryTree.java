@@ -1,6 +1,12 @@
 package com.umg.edu.progra3_utilities.tree;
 
+import java.time.LocalDateTime;
+
+import com.umg.edu.progra3_model.entities.History;
 import com.umg.edu.progra3_model.entities.Ticket;
+import com.umg.edu.progra3_model.enums.TicketStatus;
+import com.umg.edu.progra3_utilities.list.MyNode;
+
 import jakarta.persistence.EntityManager;
 
 public class MyBinaryTree {
@@ -18,9 +24,21 @@ public class MyBinaryTree {
 
     private boolean deleteRecursive(TreeNode node, Long id) {
         if (node == null) return false;
-        boolean deleted = node.queue.removeById(id);
-        return deleted || deleteRecursive(node.left, id) || deleteRecursive(node.right, id);
+
+        MyNode current = node.queue.getFront();
+        while (current != null) {
+            Ticket t = (Ticket) current.data;
+            if (t.getId().equals(id)) {                
+                node.queue.removeById(id);
+                return true;
+            }
+            current = current.next;
+        }
+
+        // Continuar en subárboles izquierdo y derecho
+        return deleteRecursive(node.left, id) || deleteRecursive(node.right, id);
     }
+
 
     public Ticket attendNext(String serviceName) {
         TreeNode node = findNode(root, serviceName);
@@ -59,6 +77,34 @@ public class MyBinaryTree {
     
     public TreeNode getRoot() {
         return root;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Árbol de Servicios:\n");
+        traverseTree(root, sb);
+        return sb.toString();
+    }
+
+    private void traverseTree(TreeNode node, StringBuilder sb) {
+        if (node == null) return;
+
+        traverseTree(node.left, sb);
+
+        sb.append("Servicio: ").append(node.serviceName).append("\n");
+        sb.append("  Tickets:\n");
+
+        MyNode current = node.queue.getFront();
+        while (current != null) {
+            Ticket t = (Ticket) current.data;
+            sb.append("    - Ticket ID: ").append(t.getId())
+            .append(", Cliente: ").append(t.getCustomer().getName())
+            .append(", Estado: ").append(t.getStatus()).append("\n");
+            current = current.next;
+        }
+
+        traverseTree(node.right, sb);
     }
 
     
